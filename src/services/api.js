@@ -1,6 +1,7 @@
+// src/services/api.js
 import axios from 'axios';
 
-const API_URL = "http://192.168.1.6:8000/api/trabajadores";
+const API_URL = "http://127.0.0.1:8000/api/trabajadores";
 
 export const getTrabajadores = async () => {
   try {
