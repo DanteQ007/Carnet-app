@@ -71,24 +71,29 @@ const TrabajadorList = () => {
   };
 
   const selectedTrabajador = trabajadores.find(t => t.id === selectedId);
-useEffect(() => {
-  if (selectedId) {
-    const t = trabajadores.find(trab => trab.id === selectedId);
-    if (t && barcodeRefs.current[t.id]) {
-      JsBarcode(barcodeRefs.current[t.id], t.documento?.toString(), {
-        format: 'CODE128',
-        displayValue: false,
-        height: 40,
-        width: 1.5,
-        margin: 0,
-      });
+
+  useEffect(() => {
+    if (selectedId) {
+      const t = trabajadores.find(trab => trab.id === selectedId);
+      if (t && barcodeRefs.current[t.id]) {
+        JsBarcode(barcodeRefs.current[t.id], t.documento?.toString(), {
+          format: 'CODE128',
+          displayValue: false,
+          height: 40,
+          width: 1.5,
+          margin: 0,
+        });
+      }
     }
-  }
-}, [selectedId, trabajadores]);
+  }, [selectedId, trabajadores]);
 
   return (
-    <div>
-      {/* Listado de carnets en miniatura */}
+    <div className="page-container">
+      <header className="page-header">
+        <h1>Carnets Digitales de Trabajadores</h1>
+        <p>Haz clic sobre un carnet para verlo en detalle y descargarlo como PDF.</p>
+      </header>
+
       <div className="card-container">
         {trabajadores.map(t => (
           <div
@@ -104,7 +109,7 @@ useEffect(() => {
               </div>
               <div className="photo-section">
                 <img
-                  src={t.foto ? `http://192.168.1.6:8000/images/${t.foto.split('/').pop()}` : "/placeholder.jpg"}
+                  src={t.foto ? `http://192.168.1.6:8000/images/${t.foto.split('/').pop()}` : "/predeterminado.png"}
                   alt={t.nombre}
                   className="profile-photo"
                 />
@@ -127,14 +132,12 @@ useEffect(() => {
         ))}
       </div>
 
-      {/* Vista detallada del carnet seleccionado */}
       {selectedTrabajador && (
-        <div style={{ marginTop: '30px', textAlign: 'center' }}>
+        <div className="detalle-container">
           <h3>Carnet Seleccionado</h3>
           <div
             className="card"
             ref={el => (cardRefs.current[selectedTrabajador.id] = el)}
-            style={{ margin: '0 auto' }}
           >
             <div className="card-body">
               <div className="header">
@@ -153,10 +156,7 @@ useEffect(() => {
                 <p className="name">{selectedTrabajador.nombre?.toUpperCase()}</p>
                 <p className="id">CC {selectedTrabajador.documento} &nbsp;&nbsp;&nbsp; RH: A+</p>
                 <div className="barcode-container">
-                  <svg
-    ref={el => (barcodeRefs.current[selectedTrabajador.id] = el)}
-    className="barcode"
-  />
+                  <svg ref={el => (barcodeRefs.current[selectedTrabajador.id] = el)} className="barcode" />
                 </div>
                 <p className="region">Regional Santander</p>
                 <p className="center">
@@ -165,13 +165,15 @@ useEffect(() => {
               </div>
             </div>
           </div>
-
-          {/* Botón de descarga afuera */}
-          <button style={{ marginTop: '15px' }} onClick={handleDownloadPDF}>
+          <button className="download-button" onClick={handleDownloadPDF}>
             Descargar PDF
           </button>
         </div>
       )}
+
+      <footer className="page-footer">
+        <p>&copy; {new Date().getFullYear()} Sistema de Carnetización - SENA</p>
+      </footer>
     </div>
   );
 };
