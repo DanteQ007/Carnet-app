@@ -1,30 +1,39 @@
-// src/services/api.js
+// services/api.js
 import axios from 'axios';
 
-const API_BASE = "http://127.0.0.1:8000/api";
-let token = null;
+const API_URL = 'http://127.0.0.1:8000/api';
 
-// Configura Axios globalmente
-const api = axios.create({
-  baseURL: API_BASE,
-  withCredentials: true, // ← Importante para Laravel Sanctum
+// Crear una instancia de axios con el token si existe
+const axiosInstance = axios.create({
+  baseURL: API_URL,
 });
 
-// LOGIN
-export const login = async (email, password) => {
-  const response = await api.post('/login', { email, password });
-  token = response.data.token;
+// Interceptor para agregar el token en cada solicitud automáticamente
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-  // Establecer token global para futuras peticiones
-  api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  return response.data;
+// Función para iniciar sesión
+export const login = async (email, password) => {
+  const response = await axios.post(`${API_URL}/login`, {
+    email,
+    password,
+  });
+  return response;
 };
-export const getTrabajadores = async () => {
-  const response = await axios.get('http://127.0.0.1:8000/api/trabajadores');
-  return response.data;
-};
-// PERFIL
+
+// Obtener perfil del usuario autenticado
 export const getPerfil = async () => {
-  const response = await api.get('/perfil');
+  const response = await axiosInstance.get('/perfil');
+  return response.data;
+};
+
+// Obtener todos los trabajadores
+export const getTrabajadores = async () => {
+  const response = await axiosInstance.get('/trabajadores');
   return response.data;
 };

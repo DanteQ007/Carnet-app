@@ -65,9 +65,8 @@ const TrabajadorDetalle = ({ trabajador }) => {
               <hr />
               <p className="name">{trabajador.nombre?.toUpperCase()}</p>
              <p className="id">
-  CC: {trabajador.documento} — RH: {trabajador.tipo_sangre || 'N/D'}
-</p>
-
+                CC: {trabajador.documento} — RH: {trabajador.tipo_sangre || 'N/D'}
+                </p>
               <svg ref={barcodeRef} className="barcode" />
               <p className="region">{trabajador.regional || 'Regional Santander'}</p>
               <p className="center">

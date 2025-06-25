@@ -1,7 +1,7 @@
+// components/LoginForm.jsx
 import React, { useState } from 'react';
 import { login, getPerfil } from '../services/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -10,11 +10,15 @@ const LoginForm = ({ onLoginSuccess }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      const response = await login(email, password);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
       const perfil = await getPerfil();
       onLoginSuccess(perfil);
     } catch (error) {
       alert("Credenciales incorrectas");
+      console.error(error);
     }
   };
 
