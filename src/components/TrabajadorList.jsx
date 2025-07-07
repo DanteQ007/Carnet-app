@@ -84,7 +84,7 @@ const TrabajadorList = () => {
             <div className="header">
               <img src="/logo.png" alt="Logo SENA" className="logo" />
             </div>
-            <div className="photo-section">
+            <div className="photo-section ">
               <img
                 src={t.foto ? `http://192.168.1.6:8000/images/${t.foto.split('/').pop()}` : "/placeholder.jpg"}
 
