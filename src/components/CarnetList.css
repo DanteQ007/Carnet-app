@@ -1,0 +1,91 @@
+.admin-panel {
+  padding: 40px;
+  background: #f4f6f9;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-header h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.admin-header p {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.admin-content {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: flex-start; /* evita estiramiento vertical entre columnas */
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 60%;
+  align-items: flex-start; /* asegura que las tarjetas no se estiren */
+}
+
+.card-wrapper {
+  display: inline-block; /* se ajusta al contenido */
+  flex: 0 0 auto; /* evita estiramiento en flex */
+  height: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.card-wrapper:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-wrapper.active {
+  outline: 2px solid #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+  height: auto; /* asegura que no se estire */
+}
+
+.detail-panel {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 38%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  animation: fade-in 0.4s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
