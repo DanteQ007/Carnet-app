@@ -37,3 +37,7 @@ export const getTrabajadores = async () => {
   const response = await axiosInstance.get('/trabajadores');
   return response.data;
 };
+export const getAprendices = async () => {
+  const response = await axiosInstance.get('/aprendices');
+  return response.data;
+};

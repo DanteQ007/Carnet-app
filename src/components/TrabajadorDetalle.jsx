@@ -41,41 +41,48 @@ const TrabajadorDetalle = ({ trabajador }) => {
       {/* Carnet */}
       <div>
         <h2 style={{ textAlign: 'center' }}>Mi Carnet</h2>
-        <div
-          className="card"
-          ref={cardRef}
-        >
+        <div className="card" ref={cardRef}>
           <div className="header">
             <img src="/logo.png" alt="Logo" className="logo" />
           </div>
- <div className="photo-section">
-              <img
-                src={
-                  trabajador.foto
-                    ? `http://127.0.0.1:8000/images/${trabajador.foto.split('/').pop()}`
-                    : '/predeterminado.png'
-                }
-                alt={trabajador.nombre}
-                className="profile-photo"
-              />
-            </div>
+          <div className="photo-section">
+            <img
+              src={
+                trabajador.foto
+                  ? `http://127.0.0.1:8000/images/${trabajador.foto.split('/').pop()}`
+                  : '/predeterminado.png'
+              }
+              alt={trabajador.nombre}
+              className="profile-photo"
+            />
+          </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
             <div className="info">
               <p className="label">{trabajador.tipo?.toUpperCase() || 'INSTRUCTOR'}</p>
               <hr />
               <p className="name">{trabajador.nombre?.toUpperCase()}</p>
-             <p className="id">
+              <p className="id">
                 CC: {trabajador.documento} — RH: {trabajador.tipo_sangre || 'N/D'}
-                </p>
+              </p>
               <svg ref={barcodeRef} className="barcode" />
               <p className="region">{trabajador.regional || 'Regional Santander'}</p>
               <p className="center">
-                {trabajador.centro || 'Centro Industrial del Diseño'}<br />
-                y la Manufactura
+                {trabajador.centro || 'Centro Industrial del Diseño'}
+                <br />y la Manufactura
               </p>
-            </div>
 
-           
+              {/* Info adicional en el carnet para aprendices */}
+              {trabajador.tipo === 'aprendiz' && (
+                <div className="ficha-info" style={{ fontSize: '12px', marginTop: 5 }}>
+                  <p style={{ margin: 0 }}>
+                    Ficha: {trabajador.numero_ficha} — {trabajador.nivel_formacion || 'Formación N/D'} - {trabajador.nombre_ficha}
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    Ingreso: {trabajador.fecha_ingreso || 'N/D'} <br />
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -86,7 +93,7 @@ const TrabajadorDetalle = ({ trabajador }) => {
 
       {/* Información adicional */}
       <div className="info-extra">
-        <h2>Información del Trabajador</h2>
+        <h2>Información del {trabajador.tipo === 'aprendiz' ? 'Aprendiz' : 'Trabajador'}</h2>
         <p><strong>Nombre:</strong> {trabajador.nombre}</p>
         <p><strong>Documento:</strong> {trabajador.documento}</p>
         <p><strong>Correo Sena:</strong> {trabajador.correo_sena}</p>
@@ -94,8 +101,16 @@ const TrabajadorDetalle = ({ trabajador }) => {
         <p><strong>Celular:</strong> {trabajador.celular}</p>
         <p><strong>Fecha de Nacimiento:</strong> {trabajador.fecha_nacimiento}</p>
         <p><strong>Estado:</strong> {trabajador.estado}</p>
-        <p><strong>Cargo:</strong> {trabajador.cargo}</p>
-        <p><strong>Tipo:</strong> {trabajador.tipo}</p>
+        <p><strong>Tipo de Sangre:</strong> {trabajador.tipo_sangre}</p>
+
+        {trabajador.tipo === 'aprendiz' && (
+          <>
+            <p><strong>Número de Ficha:</strong> {trabajador.numero_ficha}</p>
+            <p><strong>Nombre de Ficha:</strong> {trabajador.nombre_ficha}</p>
+            <p><strong>Nivel de Formación:</strong> {trabajador.nivel_formacion}</p>
+            <p><strong>Fecha de Ingreso:</strong> {trabajador.fecha_ingreso}</p>
+          </>
+        )}
 
         {trabajador.tipo === 'funcionario' && trabajador.funcionario && (
           <>

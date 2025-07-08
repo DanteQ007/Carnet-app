@@ -81,6 +81,19 @@ hr {
   font-weight: bold;
 }
 
+/* NUEVO: Información de la ficha del aprendiz */
+.ficha-info {
+  font-size: 11px;
+  margin-top: 8px;
+  color: #444;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.ficha-info p {
+  margin: 2px 0;
+}
+
 .download-button {
   margin-top: 20px;
   padding: 8px 16px;
