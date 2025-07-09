@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import TrabajadorDetalle from './TrabajadorDetalle';
+import CarnetDetalle from './CarnetDetalle';
 import { getTrabajadores, getAprendices } from '../services/api';
-import './CarnetList.css'; // Asegúrate de que exista este archivo CSS
+import './CarnetList.css';
 
 const CarnetList = () => {
-  const [trabajadores, setTrabajadores] = useState([]);
-  const [trabajadorSeleccionado, setTrabajadorSeleccionado] = useState(null);
+  const [personas, setPersonas] = useState([]);
+  const [personaSeleccionada, setPersonaSeleccionada] = useState(null);
   const [busqueda, setBusqueda] = useState('');
 
   useEffect(() => {
@@ -16,37 +16,32 @@ const CarnetList = () => {
           getAprendices(),
         ]);
 
-        // Formatear aprendices como si fueran trabajadores
         const aprendicesFormateados = aprendicesData.map((a) => ({
           ...a,
           tipo: 'aprendiz',
-          nombre: a.nombre,
-          documento: a.documento,
-          tipo_sangre: a.tipo_sangre,
-          foto: a.foto,
           regional: 'Regional Santander',
           centro: 'Centro Industrial del Diseño',
         }));
 
-        setTrabajadores([...trabajadoresData, ...aprendicesFormateados]);
+        setPersonas([...trabajadoresData, ...aprendicesFormateados]);
       } catch (error) {
-        console.error('Error cargando trabajadores y aprendices:', error);
+        console.error('Error cargando personas:', error);
       }
     };
 
     fetchDatos();
   }, []);
 
-  const trabajadoresFiltrados = trabajadores.filter((trabajador) =>
-    trabajador.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
-    trabajador.documento?.toString().includes(busqueda)
+  const personasFiltradas = personas.filter((p) =>
+    p.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
+    p.documento?.toString().includes(busqueda)
   );
 
   return (
     <div className="admin-panel">
       <div className="admin-header">
         <h1>Gestión de Carnets</h1>
-        <p>Haz clic en un carnet para ver los detalles del trabajador o aprendiz</p>
+        <p>Haz clic en un carnet para ver los detalles</p>
 
         <div className="busqueda-container">
           <input
@@ -60,13 +55,12 @@ const CarnetList = () => {
       </div>
 
       <div className="admin-content">
-        {/* Carnets a la izquierda */}
         <div className="card-list">
-          {trabajadoresFiltrados.map((trabajador) => (
+          {personasFiltradas.map((persona) => (
             <div
-              key={`${trabajador.tipo}-${trabajador.id}`}
-              onClick={() => setTrabajadorSeleccionado(trabajador)}
-              className={`card-wrapper ${trabajadorSeleccionado?.id === trabajador.id ? 'active' : ''}`}
+              key={`${persona.tipo}-${persona.id}`}
+              onClick={() => setPersonaSeleccionada(persona)}
+              className={`card-wrapper ${personaSeleccionada?.id === persona.id ? 'active' : ''}`}
             >
               <div className="card">
                 <div className="header">
@@ -75,22 +69,22 @@ const CarnetList = () => {
                 <div className="photo-section">
                   <img
                     src={
-                      trabajador.foto
-                        ? `http://127.0.0.1:8000/images/${trabajador.foto.split('/').pop()}`
+                      persona.foto
+                        ? `http://127.0.0.1:8000/storage/${persona.foto}`
                         : '/predeterminado.png'
                     }
-                    alt={trabajador.nombre}
+                    alt={persona.nombre}
                     className="profile-photo"
                   />
                 </div>
                 <div className="info">
-                  <p className="label">{trabajador.tipo?.toUpperCase() || 'INSTRUCTOR'}</p>
+                  <p className="label">{persona.tipo?.toUpperCase() || 'CARNET'}</p>
                   <hr />
-                  <p className="name">{trabajador.nombre?.toUpperCase()}</p>
-                  <p className="id">CC: {trabajador.documento} — RH: {trabajador.tipo_sangre || 'N/D'}</p>
-                  <p className="region">{trabajador.regional || 'Regional Santander'}</p>
+                  <p className="name">{persona.nombre?.toUpperCase()}</p>
+                  <p className="id">CC: {persona.documento} — RH: {persona.tipo_sangre || 'N/D'}</p>
+                  <p className="region">{persona.regional || 'Regional Santander'}</p>
                   <p className="center">
-                    {trabajador.centro || 'Centro Industrial del Diseño'}<br />
+                    {persona.centro || 'Centro Industrial del Diseño'}<br />
                     y la Manufactura
                   </p>
                 </div>
@@ -99,10 +93,9 @@ const CarnetList = () => {
           ))}
         </div>
 
-        {/* Detalles a la derecha */}
-        {trabajadorSeleccionado && (
+        {personaSeleccionada && (
           <div className="detail-panel animate-slide-in">
-            <TrabajadorDetalle trabajador={trabajadorSeleccionado} />
+            <CarnetDetalle persona={personaSeleccionada} />
           </div>
         )}
       </div>
