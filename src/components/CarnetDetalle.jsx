@@ -73,16 +73,14 @@ const handleDownloadPDF = async () => {
             <img src="/logo.png" alt="Logo" className="logo" />
           </div>
           <div className="photo-section">
-            <img
-              src={
-                persona.foto
-                  ? `http://127.0.0.1:8000/storage/${persona.foto}`
-                  : '/predeterminado.png'
-              }
-              alt={persona.nombre}
-              className="profile-photo"
-              
-            />
+        <img
+  src={`http://127.0.0.1:8000/imagen/${persona.foto}`}
+  alt={persona.nombre}
+  crossOrigin="anonymous"
+  className="profile-photo"
+/>
+
+            
           </div>
           
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
@@ -116,6 +114,42 @@ const handleDownloadPDF = async () => {
         <button onClick={handleDownloadPDF} className="download-button">
           Descargar PDF
         </button>
+       <form
+  onSubmit={async (e) => {
+    e.preventDefault();
+    const archivo = e.target.foto.files[0];
+    if (!archivo) return;
+
+    const formData = new FormData();
+    formData.append('foto', archivo);
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/foto`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('Foto subida correctamente.');
+        window.location.reload();
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.message || 'al subir la foto.'}`);
+      }
+    } catch (error) {
+      console.error('Error al subir imagen:', error);
+      alert('Fallo de red al subir la imagen.');
+    }
+  }}
+>
+  <input type="file" name="foto" accept="image/*" required />
+  <button type="submit">Subir Foto</button>
+</form>
+
+
       </div>
 
       <div className="info-extra">

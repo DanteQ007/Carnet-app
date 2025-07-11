@@ -67,15 +67,15 @@ const CarnetList = () => {
                   <img src="/logo.png" alt="Logo" className="logo" />
                 </div>
                 <div className="photo-section">
-                  <img
-                    src={
-                      persona.foto
-                        ? `http://127.0.0.1:8000/storage/${persona.foto}`
-                        : '/predeterminado.png'
-                    }
-                    alt={persona.nombre}
-                    className="profile-photo"
-                  />
+                 <img
+  src={
+    persona.foto
+      ? `http://127.0.0.1:8000/storage/fotos/${persona.foto}`
+      : '/predeterminado.png' // esta ruta debe estar en tu public/
+  }
+  alt={persona.nombre}
+  className="profile-photo"
+/>
                 </div>
                 <div className="info">
                   <p className="label">{persona.tipo?.toUpperCase() || 'CARNET'}</p>
