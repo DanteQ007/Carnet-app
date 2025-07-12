@@ -1,11 +1,30 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.card-wrapper {
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #1A9E1A;
+}
+
 .card {
   width: 250px;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
   overflow: hidden;
   padding: 10px;
   box-sizing: border-box;
+  margin: auto;
 }
 
 .header {
@@ -24,6 +43,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .profile-photo {
@@ -35,12 +55,14 @@
 }
 
 .info {
-  flex: 1;
+  text-align: left;
+  padding: 0 5px;
 }
 
 .label {
   font-weight: bold;
   font-size: 14px;
+  color: #444;
   margin: 5px 0;
 }
 
@@ -59,7 +81,7 @@
 .barcode {
   height: 40px;
   width: auto;
-  margin-top: 8px;
+  margin: 8px 0;
 }
 
 hr {
@@ -76,48 +98,66 @@ hr {
 .center {
   font-size: 12px;
   color: #1A9E1A;
-  margin-top: 3px;
   line-height: 1.2;
   font-weight: bold;
 }
 
-/* NUEVO: Información de la ficha del aprendiz */
 .ficha-info {
   font-size: 11px;
   margin-top: 8px;
   color: #444;
   line-height: 1.2;
-  font-weight: 500;
 }
 
 .ficha-info p {
   margin: 2px 0;
 }
 
-.download-button {
+.download-button,
+.upload-form button {
   margin-top: 20px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
+  padding: 10px 16px;
+  background-color: #1A9E1A;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
   font-size: 14px;
   transition: background-color 0.3s ease;
 }
+.logout-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1000;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-.download-button:hover {
-  background-color: #0056b3;
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.download-button:hover,
+.upload-form button:hover {
+  background-color: #147d14;
+}
+
+.upload-form {
+  margin-top: 10px;
 }
 
 .info-extra {
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 20px;
   width: 400px;
   background: #f9f9f9;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }

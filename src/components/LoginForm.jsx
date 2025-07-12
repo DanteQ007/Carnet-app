@@ -1,7 +1,7 @@
-// components/LoginForm.jsx
 import React, { useState } from 'react';
 import { login, getPerfil } from '../services/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './LoginForm.css'; // archivo CSS personalizado
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -17,44 +17,52 @@ const LoginForm = ({ onLoginSuccess }) => {
       const perfil = await getPerfil();
       onLoginSuccess(perfil);
     } catch (error) {
-      alert("Credenciales incorrectas");
+      alert('Correo o contraseña incorrectos');
       console.error(error);
     }
   };
 
   return (
-    <div className="container d-flex align-items-center justify-content-center min-vh-100 bg-light">
-      <div className="card shadow p-4" style={{ maxWidth: '400px', width: '100%' }}>
-        <h3 className="text-center mb-4">Iniciar Sesión</h3>
+    <div className="login-container">
+      <div className="login-card">
+        <h2 className="text-center mb-4 text-success">Acceso al Sistema</h2>
         <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">Correo electrónico</label>
+          <div className="form-group mb-3">
+            <label htmlFor="email">Correo institucional (SENA-trabajador) o (personal-aprendiz)</label>
             <input
               type="email"
               id="email"
+              list="emailSuggestions"
               className="form-control"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="ejemplo@correo.com"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="ejemplo@misena.edu.co"
               required
             />
+            <datalist id="emailSuggestions">
+              <option value="aprendiz@misena.edu.co" />
+              <option value="funcionario@misena.edu.co" />
+              <option value="contratista@misena.edu.co" />
+              <option value="admin@correo.com" />
+              <option value="aprendiz@gmail.com" />
+            </datalist>
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">Contraseña</label>
+          <div className="form-group mb-4">
+            <label htmlFor="password">Contraseña</label>
             <input
               type="password"
               id="password"
               className="form-control"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Tu contraseña"
               required
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">
-            Entrar
+          <button type="submit" className="btn btn-success w-100">
+            Iniciar Sesión
           </button>
         </form>
       </div>
