@@ -10,24 +10,31 @@ const CarnetList = () => {
 
   useEffect(() => {
     const fetchDatos = async () => {
-      try {
-        const [trabajadoresData, aprendicesData] = await Promise.all([
-          getTrabajadores(),
-          getAprendices(),
-        ]);
+  try {
+    const [trabajadoresData, aprendicesData] = await Promise.all([
+      getTrabajadores(),
+      getAprendices(),
+    ]);
 
-        const aprendicesFormateados = aprendicesData.map((a) => ({
-          ...a,
-          tipo: 'aprendiz',
-          regional: 'Regional Santander',
-          centro: 'Centro Industrial del Diseño',
-        }));
+    const trabajadoresFormateados = trabajadoresData.map((t) => ({
+      ...t,
+      tipo: t.funcionario ? 'funcionario' : t.contratista ? 'contratista' : 'usuario',
+      regional: 'Regional Santander',
+      centro: 'Centro Industrial del Diseño',
+    }));
 
-        setPersonas([...trabajadoresData, ...aprendicesFormateados]);
-      } catch (error) {
-        console.error('Error cargando personas:', error);
-      }
-    };
+    const aprendicesFormateados = aprendicesData.map((a) => ({
+      ...a,
+      tipo: 'aprendiz',
+      regional: 'Regional Santander',
+      centro: 'Centro Industrial del Diseño',
+    }));
+
+    setPersonas([...trabajadoresFormateados, ...aprendicesFormateados]);
+  } catch (error) {
+    console.error('Error cargando personas:', error);
+  }
+};
 
     fetchDatos();
   }, []);
