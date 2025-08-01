@@ -60,6 +60,38 @@ const CarnetList = () => {
           />
         </div>
       </div>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const archivo = e.target.archivo.files[0];
+            if (!archivo) return alert('Selecciona un archivo primero.');
+
+            const formData = new FormData();
+            formData.append('archivo', archivo);
+
+            try {
+              const response = await fetch('http://127.0.0.1:8000/api/carga-masiva', {
+                method: 'POST',
+                body: formData,
+              });
+
+              if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+              }
+
+              alert('Carga masiva exitosa');
+              window.location.reload(); 
+            } catch (err) {
+              console.error('Error en carga masiva:', err);
+              alert('Error en carga masiva: ' + err.message);
+            }
+          }}
+          className="carga-masiva-form"
+        >
+          <input type="file" name="archivo" accept=".xlsx,.csv" />
+          <button type="submit">Subir Carga Masiva</button>
+        </form>
 
       <div className="admin-content">
         <div className="card-list">
